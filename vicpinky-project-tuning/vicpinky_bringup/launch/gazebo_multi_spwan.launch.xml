@@ -24,8 +24,10 @@
         <arg name="Y" value="$(var Y)"/>
     </include>
     
-    <node pkg="laser_filters" exec="scan_to_scan_filter_chain" namespace="$(var namespace)">
+    <node pkg="laser_filters" exec="scan_to_scan_filter_chain" namespace="$(var robot_name)">
         <param from="$(var filter_yaml_path)" />
+        <param name="filter1.params.polygon_frame" value="$(var robot_name)/base_link"/>
+    
     </node>
 
 </launch>

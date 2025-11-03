@@ -28,11 +28,10 @@ def main(args=None):
     goal_pose.pose.orientation.y = 0.0
     goal_pose.pose.orientation.z = 0.0
     goal_pose.pose.orientation.w = 0.1
+    init_pose = PoseStamped()
+    init_pose = goal_pose
 
-    nav2.get_logger().info('==================')
-    nav2.get_logger().info(f'초기 포즈 : {goal_pose}')
-    nav2.get_logger().info('==================')
-    nav2.setInitialPose(goal_pose)
+    nav2.setInitialPose(init_pose)
 
     goal_pose.pose.position.x = -0.515067774510408
     goal_pose.pose.position.y = -5.580084493604952
@@ -41,15 +40,22 @@ def main(args=None):
     goal_pose.pose.orientation.y = 0.0
     goal_pose.pose.orientation.z = -0.6704549427225669
     goal_pose.pose.orientation.w = 0.7419502475091436
-    nav2.get_logger().info(f'목적지 포즈 : {goal_pose}')
-    nav2.get_logger().info('==================')
-    nav2.goToPose(goal_pose)
-    while not nav2.isTaskComplete():
-        feedback = nav2.getFeedback()
-        if feedback.navigation_time.sec > 600:
-            nav2.cancelTask()
+    path = nav2.getPath(init_pose, goal_pose)
 
-        nav2.get_logger().info(f'feedback: {feedback}')
+    if path is not None:
+        nav2.followPath(path) 
+        nav2.get_logger().info(f'경로 :{path}')
+    
+    else:
+        print("경로를 찾을 수 없습니다.")
+
+    # nav2.goToPose(goal_pose)
+    # while not nav2.isTaskComplete():
+    #     feedback = nav2.getFeedback()
+    #     if feedback.navigation_time.sec > 600:
+    #         nav2.cancelTask()
+
+        #nav2.get_logger().info(f'feedback: {feedback}')
 
 
     rclpy.shutdown()
