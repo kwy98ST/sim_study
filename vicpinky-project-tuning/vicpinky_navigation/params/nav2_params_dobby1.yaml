@@ -22,7 +22,7 @@
       max_beams: 60                                   # 위치 추정에 사용할 최대 레이저 빔 수
       max_particles: 2000                             # 파티클 필터에서 사용할 최대 파티클 개수
       min_particles: 500                              # 파티클 필터에서 사용할 최소 파티클 개수
-      odom_frame_id: "odom"                           # 오도메트리 좌표계 ID
+      odom_frame_id: "dobby1/odom"                           # 오도메트리 좌표계 ID
       pf_err: 0.05                                    # 파티클 필터의 오차
       pf_z: 0.99                                      # 파티클 필터의 z값
       recovery_alpha_fast: 0.0                        # 빠른 복구 필터의 감쇠 계수 (0.0은 비활성화)
@@ -218,7 +218,7 @@
       ros__parameters:
         update_frequency: 10.0                        # 비용 지도 업데이트 주기(Hz)
         publish_frequency: 5.0                        # 비용 지도 발행 주기(Hz)
-        global_frame: odom                            # 지역 지도의 기준이 될 전역 좌표계 (보통 'odom')
+        global_frame: dobby1/odom                            # 지역 지도의 기준이 될 전역 좌표계 (보통 'odom')
         robot_base_frame: base_footprint              # 로봇의 베이스 좌표계
         use_sim_time: False                           # 시뮬레이션 시간 사용 여부
         rolling_window: true                          # 로봇을 중심으로 지도가 움직이는 '롤링 윈도우' 방식 사용 여부
@@ -406,7 +406,7 @@
         plugin: "nav2_behaviors::Wait"                # 대기 행동
       assisted_teleop:
         plugin: "nav2_behaviors::AssistedTeleop"      # 보조 원격 조작 행동
-      local_frame: odom                               # 지역 좌표계
+      local_frame: dobby1/odom                               # 지역 좌표계
       global_frame: map                               # 전역 좌표계
       #robot_base_frame: base_link                     # 로봇 베이스 좌표계
       robot_base_frame: base_footprint                

@@ -25,6 +25,12 @@ setup(
     entry_points={
         'console_scripts': [
             'nav2_test = dobby_nav2.nav2_test:main',
+            'dobby_nav2_server = dobby_nav2.dobby_nav2_server:main',
+            'dobby_nav2_client = dobby_nav2.dobby_nav2_client:main',
+            'dobby_way_server = dobby_nav2.dobby_way_server:main',
+            'dobby_way_client = dobby_nav2.dobby_way_client:main',
+
+
         ],
     },
 )
