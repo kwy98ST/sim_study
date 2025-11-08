@@ -49,7 +49,7 @@
     ros__parameters:
       global_frame: map                               # 전역 좌표계
       robot_base_frame: base_footprint                # 로봇 베이스 좌표계
-      odom_topic: odom                                # 오도메트리 토픽
+      odom_topic: /odom                               # 오도메트리 토픽
       bt_loop_duration: 10                            # 행동 트리 루프 실행 주기(ms)
       default_server_timeout: 20                      # 기본 서버 타임아웃(ms)
       wait_for_service_timeout: 1000                  # 서비스 대기 시간(ms)
@@ -219,7 +219,7 @@
         update_frequency: 10.0                        # 비용 지도 업데이트 주기(Hz)
         publish_frequency: 5.0                        # 비용 지도 발행 주기(Hz)
         global_frame: odom                            # 지역 지도의 기준이 될 전역 좌표계 (보통 'odom')
-        robot_base_frame: base_footprint              # 로봇의 베이스 좌표계
+        robot_base_frame: base_link                   # 로봇의 베이스 좌표계
         use_sim_time: False                           # 시뮬레이션 시간 사용 여부
         rolling_window: true                          # 로봇을 중심으로 지도가 움직이는 '롤링 윈도우' 방식 사용 여부
         width: 5                                      # 지도 너비(미터)
@@ -243,7 +243,7 @@
           mark_threshold: 0                           # 장애물로 표시할 셀의 최소 포인트 수
           observation_sources: scan                   # 센서 데이터 소스 이름
           scan:
-            topic: scan_filtered                     # 사용할 센서 토픽
+            topic: /scan_filtered                     # 사용할 센서 토픽
             max_obstacle_height: 2.0                  # 장애물로 처리할 최대 높이
             clearing: True                            # 센서 데이터로 장애물이 없어진 영역을 지도에서 제거할지 여부
             marking: True                             # 센서 데이터로 장애물이 감지된 영역을 지도에 표시할지 여부
@@ -276,7 +276,7 @@
           enabled: True                               # 활성화 여부
           observation_sources: scan                   # 센서 데이터 소스 이름
           scan:
-            topic: scan_filtered                     # 사용할 센서 토픽
+            topic: /scan_filtered                     # 사용할 센서 토픽
             max_obstacle_height: 2.0                  # 장애물로 처리할 최대 높이
             clearing: True                            # 장애물 제거 여부
             marking: True                             # 장애물 표시 여부
@@ -408,8 +408,7 @@
         plugin: "nav2_behaviors::AssistedTeleop"      # 보조 원격 조작 행동
       local_frame: odom                               # 지역 좌표계
       global_frame: map                               # 전역 좌표계
-      #robot_base_frame: base_link                     # 로봇 베이스 좌표계
-      robot_base_frame: base_footprint                
+      robot_base_frame: base_link                     # 로봇 베이스 좌표계
       transform_tolerance: 0.1                        # tf 변환 정보 최대 대기 시간(초)
       simulate_ahead_time: 2.0                        # 행동 시뮬레이션 시간(초)
       max_rotational_vel: 1.0                         # 최대 회전 속도(rad/s)

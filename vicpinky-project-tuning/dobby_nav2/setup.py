@@ -29,6 +29,8 @@ setup(
             'dobby_nav2_client = dobby_nav2.dobby_nav2_client:main',
             'dobby_way_server = dobby_nav2.dobby_way_server:main',
             'dobby_way_client = dobby_nav2.dobby_way_client:main',
+            'dobby_tracking_server = dobby_nav2.dobby_tracking_server:main',
+            'dobby_tracking_client = dobby_nav2.dobby_tracking_client:main',
 
 
         ],
