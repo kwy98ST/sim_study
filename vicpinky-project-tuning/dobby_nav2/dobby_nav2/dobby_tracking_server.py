@@ -10,6 +10,8 @@ from nav2_simple_commander.robot_navigator import BasicNavigator
 import math
 import tf_transformations
 import asyncio # execute_callback에서 await asyncio.sleep(0.1)을 사용하기 위해 필요
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
 
 # Haar Cascade XML 파일 경로 설정 (사용자 환경에 맞게 반드시 수정하세요!)
 FACE_CASCADE_PATH = '/usr/share/opencv4/haarcascades/haarcascade_frontalface_default.xml'
@@ -42,6 +44,16 @@ class DobbyTrackingServer(Node):
             '/dobby_path',
             10
         )
+        self._img_pub = self.create_publisher(
+            Image,
+            '/dobby_img',
+            10
+        )
+        timer_period = 0.1
+        self.img_timer = self.create_timer(timer_period, self.img_timer_callback)
+        self.br = CvBridge()
+        self.current_frame = None
+        
         self.goal_handle = None
         self.amcl_pose = None # 초기화
 
@@ -76,6 +88,10 @@ class DobbyTrackingServer(Node):
 
         # <--- 추가된 부분: 로봇 정지를 위한 /cmd_vel 퍼블리셔 ---
         self.cmd_vel_pub = self.create_publisher(Twist, 'cmd_vel', 10)
+    def img_timer_callback(self):
+        if self.current_frame is not None:
+            ros_image_message = self.br.cv2_to_imgmsg(self.current_frame, encoding="bgr8")
+            self._img_pub.publish(ros_image_message)
 
     def amcl_callback(self, msg):
         self.amcl_pose = msg
@@ -282,9 +298,10 @@ class DobbyTrackingServer(Node):
             stop_msg = Twist()
             self.cmd_vel_pub.publish(stop_msg)
 
-        cv2.imshow('OpenCV_CSRT_Tracking', frame)
-        if cv2.waitKey(1) & 0xFF == 27:
-            self.destroy_node()
+        # cv2.imshow('OpenCV_CSRT_Tracking', frame)
+        # if cv2.waitKey(1) & 0xFF == 27:
+        #     self.destroy_node()
+        self.current_frame = frame
 
 
     def update_tracking(self, frame, frame_width, frame_height, bbox):
@@ -342,6 +359,8 @@ class DobbyTrackingServer(Node):
                 x, y, w, h = [int(v) for v in best_bbox]
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
                 cv2.putText(frame, "Visitor", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+                self.current_frame = frame
+
 
     def destroy_node(self):
         """ 노드 종료 시 자원을 해제합니다. """

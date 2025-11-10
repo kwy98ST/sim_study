@@ -4,11 +4,29 @@ from rclpy.action import ActionClient
 from geometry_msgs.msg import PoseStamped
 from dobby_test_interfaces.action import DobbyNav2
 import sys
-
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+import cv2
 class DobbyTrackingClient(Node):
     def __init__(self):
         super().__init__('dobby_nav2_client')
         self.dobby_nav2_client = ActionClient(self, DobbyNav2, 'dobby_tracking')
+        self.img_sub = self.create_subscription(
+            Image,
+            '/dobby_img',
+            self.img_callback,
+            10
+        )
+        self.img_sub
+        self.br = CvBridge()
+
+    def img_callback(self, msg):
+        try:
+            current_frame = self.br.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+            cv2.imshow("Camera Feed", current_frame)
+            cv2.waitKey(1)
+        except Exception as e:
+            self.get_logger().error(f"Error processing image: {e}")
 
     def send_goal(self, goal_pose: PoseStamped):
         goal_msg = DobbyNav2.Goal()
