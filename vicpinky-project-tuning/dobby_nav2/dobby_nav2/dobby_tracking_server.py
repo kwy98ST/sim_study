@@ -29,7 +29,7 @@ class DobbyTrackingServer(Node):
         initial_pose = self.init_pose()
         self.nav2.setInitialPose(initial_pose)
 
-        self.dobby_nav2_server = ActionServer(self, DobbyNav2, 'dobby_tracking',
+        self.dobby_nav2_server = ActionServer(self, DobbyNav2, 'dobby1/drive/guide_navigation',
                                               execute_callback=self.execute_callback,
                                               goal_callback=self.goal_callback,
                                               cancel_callback=self.cancel_callback)
@@ -71,7 +71,7 @@ class DobbyTrackingServer(Node):
 
         self.tracker = None  # CSRT 트래커 인스턴스
         # 웹캠 인덱스 2를 사용하고 있지만, 환경에 따라 0, 1 등으로 변경해야 할 수 있습니다.
-        self.cap = cv2.VideoCapture(2) 
+        self.cap = cv2.VideoCapture(0) 
 
         if not self.cap.isOpened():
             self.get_logger().error("WebCam을 열 수 없습니다.")
