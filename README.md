@@ -1,1 +1,2 @@
 # sim_study
+<iframe src="https://www.canva.com/design/DAG4XQpXb8M/GN5mgqSmPSONjUW3S58okg/view?utm_content=DAG4XQpXb8M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3b7ba6f4c4" width="350px" height="221px" frameborder="0">포함된 <a target="_blank" href="https://office.com">Microsoft Office</a> 프레젠테이션, 제공: <a target="_blank" href="https://office.com/webapps">Office</a></iframe>
